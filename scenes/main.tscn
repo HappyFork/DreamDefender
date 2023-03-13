@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://c55oqhdhly54v"]
+
+[ext_resource type="PackedScene" uid="uid://c13gps74t77ig" path="res://nodes/bomb.tscn" id="2_vcxjw"]
+[ext_resource type="PackedScene" uid="uid://bhujc7w45tvpo" path="res://nodes/robot.tscn" id="2_wlfy3"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3ll2a"]
+size = Vector2(1200, 40)
+
+[node name="Main" type="Node2D"]
+
+[node name="Bomb" parent="." instance=ExtResource("2_vcxjw")]
+position = Vector2(505, -74)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(514, 600)
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("RectangleShape2D_3ll2a")
+
+[node name="Robot" parent="." instance=ExtResource("2_wlfy3")]
+position = Vector2(520, 357)

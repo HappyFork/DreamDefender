@@ -1,0 +1,44 @@
+[gd_scene load_steps=6 format=3 uid="uid://bhujc7w45tvpo"]
+
+[ext_resource type="Script" path="res://nodes/Robot.gd" id="1_8j5am"]
+[ext_resource type="Texture2D" uid="uid://u8ajtcf6ntmk" path="res://assets/BombBoxOpen.png" id="1_che3p"]
+[ext_resource type="Texture2D" uid="uid://b61ki5r2pr7y6" path="res://assets/Tire.png" id="2_rcbdq"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_usdqv"]
+size = Vector2(170, 80)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0xqjk"]
+size = Vector2(100, 100)
+
+[node name="Robot" type="Node2D"]
+script = ExtResource("1_8j5am")
+
+[node name="Box" type="Node2D" parent="."]
+
+[node name="BoxSprite" type="Sprite2D" parent="Box"]
+position = Vector2(0, -25)
+texture = ExtResource("1_che3p")
+
+[node name="Catch" type="Area2D" parent="Box"]
+
+[node name="CatchArea" type="CollisionShape2D" parent="Box/Catch"]
+position = Vector2(0, -60)
+shape = SubResource("RectangleShape2D_usdqv")
+
+[node name="Bump" type="StaticBody2D" parent="Box"]
+position = Vector2(0, 20)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Box/Bump"]
+shape = SubResource("RectangleShape2D_0xqjk")
+
+[node name="LeftWheel" type="Node2D" parent="."]
+position = Vector2(-50, 70)
+
+[node name="WheelSprite" type="Sprite2D" parent="LeftWheel"]
+texture = ExtResource("2_rcbdq")
+
+[node name="RightWheel" type="Node2D" parent="."]
+position = Vector2(50, 70)
+
+[node name="WheelSprite" type="Sprite2D" parent="RightWheel"]
+texture = ExtResource("2_rcbdq")
