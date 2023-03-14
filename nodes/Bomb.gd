@@ -1,11 +1,17 @@
 extends RigidBody2D
 
+class_name Bomb
 
-# Called when the node enters the scene tree for the first time.
+
+var explosion
+
+
 func _ready():
-	pass # Replace with function body.
+	explosion = preload("res://nodes/explosion.tscn")
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
+func _on_body_entered(body):
+	print( "Boom!" )
+	var expl = explosion.instantiate()
+	expl.position = position
+	add_sibling(expl)
+	queue_free()

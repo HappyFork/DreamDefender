@@ -1,4 +1,8 @@
+res://nodes/bomb.tscn
 res://scenes/main.tscn
 res://nodes/robot.tscn
-res://nodes/bomb.tscn
+res://nodes/Bomb.gd
+res://nodes/explosion.tscn
 res://nodes/Robot.gd
+res://nodes/explosion.gd
+res://nodes/robot.gd
