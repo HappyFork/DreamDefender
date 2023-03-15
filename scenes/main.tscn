@@ -1,23 +1,57 @@
-[gd_scene load_steps=4 format=3 uid="uid://c55oqhdhly54v"]
+[gd_scene load_steps=7 format=3 uid="uid://c55oqhdhly54v"]
 
+[ext_resource type="Script" path="res://scenes/main.gd" id="1_mgkm1"]
 [ext_resource type="PackedScene" uid="uid://c0bxfp8r6fvaa" path="res://nodes/bomb.tscn" id="2_vcxjw"]
 [ext_resource type="PackedScene" uid="uid://coeirbx31yvt4" path="res://nodes/robot.tscn" id="2_wlfy3"]
+[ext_resource type="PackedScene" uid="uid://cxj8426ccbn3y" path="res://nodes/house.tscn" id="4_u30fq"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3ll2a"]
-size = Vector2(1200, 40)
+size = Vector2(2500, 40)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ad3n4"]
 
 [node name="Main" type="Node2D"]
+script = ExtResource("1_mgkm1")
 
 [node name="Bomb" parent="." instance=ExtResource("2_vcxjw")]
-position = Vector2(505, -74)
+position = Vector2(-943, -690)
 
 [node name="Robot" parent="." instance=ExtResource("2_wlfy3")]
-position = Vector2(520, 357)
-speed = 200
+position = Vector2(0, 360)
 
-[node name="StaticBody2D" type="StaticBody2D" parent="."]
-position = Vector2(514, 600)
+[node name="House" parent="." instance=ExtResource("4_u30fq")]
+position = Vector2(-540, 540)
+
+[node name="House2" parent="." instance=ExtResource("4_u30fq")]
+position = Vector2(540, 540)
+
+[node name="House3" parent="." instance=ExtResource("4_u30fq")]
+position = Vector2(0, 540)
+
+[node name="Floor" type="StaticBody2D" parent="."]
+position = Vector2(0, 600)
 metadata/_edit_group_ = true
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor"]
 shape = SubResource("RectangleShape2D_3ll2a")
+
+[node name="RobotWalls" type="StaticBody2D" parent="."]
+position = Vector2(0, 360)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RobotWalls"]
+position = Vector2(1030, 0)
+shape = SubResource("RectangleShape2D_ad3n4")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="RobotWalls"]
+position = Vector2(-1030, 0)
+shape = SubResource("RectangleShape2D_ad3n4")
+
+[node name="BombSpawnTimer" type="Timer" parent="."]
+wait_time = 5.0
+autostart = true
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(0.5, 0.5)
+
+[connection signal="exploded" from="Bomb" to="." method="_on_bomb_exploded"]
+[connection signal="timeout" from="BombSpawnTimer" to="." method="_on_bomb_spawn_timer_timeout"]

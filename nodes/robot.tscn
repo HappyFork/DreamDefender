@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://b61ki5r2pr7y6" path="res://assets/Tire.png" id="2_rcbdq"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_usdqv"]
-size = Vector2(170, 80)
+size = Vector2(150, 60)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0xqjk"]
 size = Vector2(110, 130)
@@ -23,7 +23,7 @@ texture = ExtResource("1_che3p")
 collision_mask = 3
 
 [node name="CatchArea" type="CollisionShape2D" parent="Box/Catch"]
-position = Vector2(0, -60)
+position = Vector2(0, -80)
 shape = SubResource("RectangleShape2D_usdqv")
 
 [node name="LeftWheel" type="Node2D" parent="."]

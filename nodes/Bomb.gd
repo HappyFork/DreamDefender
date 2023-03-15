@@ -3,15 +3,13 @@ extends RigidBody2D
 class_name Bomb
 
 
-var explosion
+### Signals ###
+signal exploded( pos )
 
 
-func _ready():
-	explosion = preload("res://nodes/explosion.tscn")
-
+### Signal functions ###
 func _on_body_entered(body):
-	print( "Boom!" )
-	var expl = explosion.instantiate()
-	expl.position = position
-	add_sibling(expl)
-	queue_free()
+	if body is StaticBody2D:
+		print( "Boom!" )
+		exploded.emit( position )
+		queue_free()

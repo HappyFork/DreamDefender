@@ -1,19 +1,22 @@
 extends CharacterBody2D
 
 
-@export var speed = 150
+### Variables ###
+@export var speed = 800 # How fast the player moves
 
-@onready var box_sprite = $Box/BoxSprite
+@onready var box_sprite = $Box/BoxSprite # The sprite for the bomb-defusal box
+@onready var left_wheel = $LeftWheel/WheelSprite # The sprite for the left wheel
+@onready var right_wheel = $RightWheel/WheelSprite # The sprite for the right wheel
 
-var box_open = true
-var box_open_sprite
-var box_closed_sprite
+var box_open = true # Whether the bomb-defusal box can catch bombs
+var smoke_offset = Vector2(50.0,-150.0) # Where the smoke cloud will spawn relative to the box
+var smoke_rise = Vector2(0,-50) # The amount the smoke cloud will rise before fading away
+var box_open_sprite = preload("res://assets/BombBoxOpen.png") # Box is open sprite
+var box_closed_sprite = preload("res://assets/BombBoxClosed.png") # Box is closed sprite
+var smoke_cloud = preload("res://assets/smokecloud.png") # Smoke cloud node
 
 
-func _ready():
-	box_open_sprite = preload("res://assets/BombBoxOpen.png")
-	box_closed_sprite = preload("res://assets/BombBoxClosed.png")
-
+### Built-in functions ###
 func _physics_process(delta):
 	# Move
 	var direction = Input.get_axis("move_left","move_right")
@@ -22,8 +25,17 @@ func _physics_process(delta):
 	else:
 		velocity.x = move_toward(velocity.x, 0, speed)
 	move_and_slide()
+	
+	# Rotate tires
+	if get_slide_collision_count() == 0 and direction > 0:
+		left_wheel.rotation += 0.2
+		right_wheel.rotation += 0.2
+	elif get_slide_collision_count() == 0 and direction < 0:
+		left_wheel.rotation -= 0.2
+		right_wheel.rotation -= 0.2
 
 
+### Signal functions ###
 func _on_catch_body_entered(body):
 	if body is Bomb and box_open:
 		body.queue_free()
@@ -33,11 +45,28 @@ func _on_catch_body_entered(body):
 		box_timer.connect("timeout", _on_timer_timeout)
 
 func _on_timer_timeout():
-	var tween = get_tree().create_tween()
-	tween.connect("finished", _on_tween_finished)
-	tween.tween_property(box_sprite, "scale", Vector2(1.2,1.2), 0.5)
+	var box_tween = get_tree().create_tween()
+	box_tween.connect("finished", _on_tween_finished)
+	box_tween.tween_property(box_sprite, "scale", Vector2(1.2,1.2), 0.5)
 
 func _on_tween_finished():
+	# Make a new sprite and a new tween
+	var sc = Sprite2D.new()
+	var smoke_tween = get_tree().create_tween()
+	
+	# Set smoke cloud's sprite & position, then spawn
+	sc.texture = smoke_cloud
+	sc.position = position + smoke_offset
+	add_sibling(sc)
+	
+	# Smoke cloud will rise and fade away, and then despawn once faded out
+	smoke_tween.set_parallel( true )
+	smoke_tween.tween_property( sc, "modulate", Color(1,1,1,0), 1 ).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_SINE)
+	smoke_tween.tween_property( sc, "position", sc.position + smoke_rise, 1 )
+	smoke_tween.set_parallel( false )
+	smoke_tween.tween_callback( sc.queue_free )
+	
+	# Reset the box to open
 	box_sprite.scale = Vector2(1,1)
 	box_sprite.texture = box_open_sprite
 	box_open = true

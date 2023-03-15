@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://cxj8426ccbn3y"]
+
+[ext_resource type="Texture2D" uid="uid://cqf2o22qwih8f" path="res://assets/tinyhouse.png" id="1_7haw2"]
+[ext_resource type="Script" path="res://nodes/house.gd" id="2_hhp8w"]
+
+[node name="House" type="Sprite2D"]
+texture = ExtResource("1_7haw2")
+script = ExtResource("2_hhp8w")
+
+[node name="ZTimer" type="Timer" parent="."]
+autostart = true
+
+[connection signal="timeout" from="ZTimer" to="." method="_on_z_timer_timeout"]
