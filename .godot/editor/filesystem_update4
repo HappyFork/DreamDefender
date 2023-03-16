@@ -1,5 +1,4 @@
-res://nodes/robot.tscn
-res://nodes/house.tscn
-res://nodes/house.gd
 res://scenes/main.tscn
+res://nodes/robot.tscn
 res://nodes/bomb.tscn
+res://nodes/house.tscn

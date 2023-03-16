@@ -53,5 +53,4 @@ autostart = true
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(0.5, 0.5)
 
-[connection signal="exploded" from="Bomb" to="." method="_on_bomb_exploded"]
 [connection signal="timeout" from="BombSpawnTimer" to="." method="_on_bomb_spawn_timer_timeout"]
