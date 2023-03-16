@@ -11,6 +11,10 @@ extends CharacterBody2D
 var box_open = true # Whether the bomb-defusal box can catch bombs
 var smoke_offset = Vector2(50.0,-150.0) # Where the smoke cloud will spawn relative to the box
 var smoke_rise = Vector2(0,-50) # The amount the smoke cloud will rise before fading away
+var parts = 3 # When I make more parts, I should set this in _ready based on the # of houses.
+var tilted_rot = 0.4 # Added or removed from rotation when 1 wheel is missing
+var tilted_drop = Vector2(0,24) # Added to position when 1 wheel is missing
+var wheelless_drop = Vector2(0,14) # Added to position when both wheels are missing
 var box_open_sprite = preload("res://assets/BombBoxOpen.png") # Box is open sprite
 var box_closed_sprite = preload("res://assets/BombBoxClosed.png") # Box is closed sprite
 var smoke_cloud = preload("res://assets/smokecloud.png") # Smoke cloud node
@@ -28,11 +32,34 @@ func _physics_process(delta):
 	
 	# Rotate tires
 	if get_slide_collision_count() == 0 and direction > 0:
-		left_wheel.rotation += 0.2
-		right_wheel.rotation += 0.2
+		left_wheel.rotation += 5.0 * delta
+		right_wheel.rotation += 5.0 * delta
 	elif get_slide_collision_count() == 0 and direction < 0:
-		left_wheel.rotation -= 0.2
-		right_wheel.rotation -= 0.2
+		left_wheel.rotation -= 5.0 * delta
+		right_wheel.rotation -= 5.0 * delta
+
+
+### Custom Functions ###
+func remove_part( rand ):
+	match parts:
+		3:
+			if rand == 0:
+				left_wheel.hide()
+				rotation = -tilted_rot
+			else:
+				right_wheel.hide()
+				rotation = tilted_rot
+			position += tilted_drop
+			speed = 400
+		2:
+			left_wheel.hide()
+			right_wheel.hide()
+			position += wheelless_drop
+			rotation = 0
+			speed = 100
+		1:
+			pass # Game over
+	parts = parts - 1
 
 
 ### Signal functions ###

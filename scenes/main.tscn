@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://c55oqhdhly54v"]
+[gd_scene load_steps=9 format=3 uid="uid://c55oqhdhly54v"]
 
 [ext_resource type="Script" path="res://scenes/main.gd" id="1_mgkm1"]
 [ext_resource type="PackedScene" uid="uid://c0bxfp8r6fvaa" path="res://nodes/bomb.tscn" id="2_vcxjw"]
@@ -10,14 +10,21 @@ size = Vector2(2500, 40)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ad3n4"]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_61200"]
+size = Vector2(50, 2000)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_p0fqv"]
+size = Vector2(2500, 50)
+
 [node name="Main" type="Node2D"]
 script = ExtResource("1_mgkm1")
 
 [node name="Bomb" parent="." instance=ExtResource("2_vcxjw")]
-position = Vector2(-943, -690)
+position = Vector2(9, -694)
 
 [node name="Robot" parent="." instance=ExtResource("2_wlfy3")]
 position = Vector2(0, 360)
+collision_mask = 5
 
 [node name="House" parent="." instance=ExtResource("4_u30fq")]
 position = Vector2(-540, 540)
@@ -37,6 +44,7 @@ shape = SubResource("RectangleShape2D_3ll2a")
 
 [node name="RobotWalls" type="StaticBody2D" parent="."]
 position = Vector2(0, 360)
+collision_layer = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RobotWalls"]
 position = Vector2(1030, 0)
@@ -46,6 +54,20 @@ shape = SubResource("RectangleShape2D_ad3n4")
 position = Vector2(-1030, 0)
 shape = SubResource("RectangleShape2D_ad3n4")
 
+[node name="DespawnArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DespawnArea"]
+position = Vector2(-1100, 0)
+shape = SubResource("RectangleShape2D_61200")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="DespawnArea"]
+position = Vector2(1100, 0)
+shape = SubResource("RectangleShape2D_61200")
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="DespawnArea"]
+position = Vector2(0, -1000)
+shape = SubResource("RectangleShape2D_p0fqv")
+
 [node name="BombSpawnTimer" type="Timer" parent="."]
 wait_time = 5.0
 autostart = true
@@ -53,4 +75,6 @@ autostart = true
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(0.5, 0.5)
 
+[connection signal="exploded" from="Bomb" to="." method="_on_bomb_exploded"]
+[connection signal="body_entered" from="DespawnArea" to="." method="_on_despawn_area_body_entered"]
 [connection signal="timeout" from="BombSpawnTimer" to="." method="_on_bomb_spawn_timer_timeout"]

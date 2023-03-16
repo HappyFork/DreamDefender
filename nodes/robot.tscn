@@ -12,6 +12,7 @@ size = Vector2(110, 130)
 
 [node name="Robot" type="CharacterBody2D"]
 script = ExtResource("1_hmhe1")
+metadata/_edit_horizontal_guides_ = [114.0]
 
 [node name="Box" type="Node2D" parent="."]
 

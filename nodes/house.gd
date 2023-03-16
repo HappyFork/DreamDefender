@@ -1,5 +1,7 @@
 extends Sprite2D
 
+class_name House
+
 
 var sleeping = true
 var z_offset = Vector2(40.0, -20.0)
