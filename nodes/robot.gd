@@ -18,7 +18,8 @@ var wheelless_drop = Vector2(0,14) # Added to position when both wheels are miss
 var box_open_sprite = preload("res://assets/BombBoxOpen.png") # Box is open sprite
 var box_closed_sprite = preload("res://assets/BombBoxClosed.png") # Box is closed sprite
 var smoke_cloud = preload("res://assets/smokecloud.png") # Smoke cloud node
-#var lose = preload("res://scenes/lose.tscn")
+
+signal caught
 
 
 ### Built-in functions ###
@@ -60,17 +61,14 @@ func remove_part( rand ):
 			speed = 100
 		1:
 			get_tree().change_scene_to_file("res://scenes/lose.tscn")
-			#self.call_deferred("go_to_lose_screen")
+	
 	parts = parts - 1
-
-#func go_to_lose_screen():
-#	print( "test!" )
-#	get_tree().change_scene_to_file("res://scenes/lose.tscn")
 
 
 ### Signal functions ###
 func _on_catch_body_entered(body):
 	if body is Bomb and box_open:
+		emit_signal("caught")
 		body.queue_free()
 		box_open = false
 		box_sprite.texture = box_closed_sprite
@@ -78,14 +76,14 @@ func _on_catch_body_entered(body):
 		box_timer.connect("timeout", _on_timer_timeout)
 
 func _on_timer_timeout():
-	var box_tween = get_tree().create_tween()
+	var box_tween = create_tween()
 	box_tween.connect("finished", _on_tween_finished)
 	box_tween.tween_property(box_sprite, "scale", Vector2(1.2,1.2), 0.5)
 
 func _on_tween_finished():
 	# Make a new sprite and a new tween
 	var sc = Sprite2D.new()
-	var smoke_tween = get_tree().create_tween()
+	var smoke_tween = create_tween()
 	
 	# Set smoke cloud's sprite & position, then spawn
 	sc.texture = smoke_cloud

@@ -1,10 +1,12 @@
-[gd_scene load_steps=10 format=3 uid="uid://c55oqhdhly54v"]
+[gd_scene load_steps=12 format=3 uid="uid://c55oqhdhly54v"]
 
 [ext_resource type="Script" path="res://scenes/main.gd" id="1_mgkm1"]
 [ext_resource type="PackedScene" uid="uid://c0bxfp8r6fvaa" path="res://nodes/bomb.tscn" id="2_vcxjw"]
 [ext_resource type="PackedScene" uid="uid://coeirbx31yvt4" path="res://nodes/robot.tscn" id="2_wlfy3"]
 [ext_resource type="PackedScene" uid="uid://cxj8426ccbn3y" path="res://nodes/house.tscn" id="4_u30fq"]
-[ext_resource type="Texture2D" uid="uid://bcgy2x8r1s7nu" path="res://assets/55-Theme-Dreams.png" id="5_hmtbb"]
+[ext_resource type="AudioStream" uid="uid://dty1or7pqr0xe" path="res://assets/explosion_wide.ogg" id="5_edfjo"]
+[ext_resource type="Texture2D" uid="uid://bru8jf4igokv4" path="res://assets/Background.png" id="5_remti"]
+[ext_resource type="AudioStream" uid="uid://cqcvry76su6nj" path="res://assets/falling-bomb.mp3" id="6_62hrp"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3ll2a"]
 size = Vector2(2500, 40)
@@ -19,6 +21,9 @@ size = Vector2(2500, 50)
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_mgkm1")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(0.5, 0.5)
 
 [node name="Bomb" parent="." instance=ExtResource("2_vcxjw")]
 position = Vector2(9, -694)
@@ -77,9 +82,6 @@ autostart = true
 wait_time = 60.0
 autostart = true
 
-[node name="Camera2D" type="Camera2D" parent="."]
-zoom = Vector2(0.5, 0.5)
-
 [node name="UI" type="CanvasLayer" parent="."]
 
 [node name="Label" type="Label" parent="UI"]
@@ -88,12 +90,21 @@ offset_top = 16.0
 offset_right = 77.0
 offset_bottom = 39.0
 
-[node name="TestSprite" type="Sprite2D" parent="."]
-visible = false
-position = Vector2(52, -108)
-texture = ExtResource("5_hmtbb")
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
+texture = ExtResource("5_remti")
+
+[node name="ExplosionSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_edfjo")
+
+[node name="FallingSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_62hrp")
 
 [connection signal="exploded" from="Bomb" to="." method="_on_bomb_exploded"]
+[connection signal="caught" from="Robot" to="." method="_on_robot_caught"]
 [connection signal="body_entered" from="DespawnArea" to="." method="_on_despawn_area_body_entered"]
 [connection signal="timeout" from="BombSpawnTimer" to="." method="_on_bomb_spawn_timer_timeout"]
 [connection signal="timeout" from="LevelTimer" to="." method="_on_level_timer_timeout"]

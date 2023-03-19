@@ -1,10 +1,13 @@
+Sprite2D
+ParallaxLayer
+ParallaxBackground
+AudioStreamPlayer
 Label
 Button
 Timer
 CanvasLayer
 CollisionShape2D
 Area2D
-Sprite2D
 StaticBody2D
 Camera2D
 CharacterBody2D
