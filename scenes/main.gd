@@ -7,6 +7,7 @@ extends Node2D
 @onready var bomb_timer = $BombSpawnTimer
 @onready var level_timer = $LevelTimer
 @onready var timer_display = $UI/Label
+@onready var paus = $UI/Pause
 @onready var expl_sound = $ExplosionSound
 @onready var fall_sound = $FallingSound
 
@@ -32,6 +33,7 @@ func _ready():
 	fall_sound.play()
 
 func _process(delta):
+	# Update the level timer
 	timer_display.text = "%d:%02d remaining" % [rnd, level_timer.time_left]
 
 

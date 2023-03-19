@@ -1,8 +1,6 @@
-res://nodes/robot.tscn
-res://nodes/house.gd
 res://scenes/main.tscn
+res://scenes/main.gd
 res://scenes/start.tscn
 res://scenes/lose.tscn
-res://scenes/test.tscn
-res://scenes/main.gd
-res://nodes/robot.gd
+res://nodes/robot.tscn
+res://scenes/pause.gd

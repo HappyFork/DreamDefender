@@ -1,9 +1,10 @@
-[gd_scene load_steps=12 format=3 uid="uid://c55oqhdhly54v"]
+[gd_scene load_steps=14 format=3 uid="uid://c55oqhdhly54v"]
 
 [ext_resource type="Script" path="res://scenes/main.gd" id="1_mgkm1"]
 [ext_resource type="PackedScene" uid="uid://c0bxfp8r6fvaa" path="res://nodes/bomb.tscn" id="2_vcxjw"]
 [ext_resource type="PackedScene" uid="uid://coeirbx31yvt4" path="res://nodes/robot.tscn" id="2_wlfy3"]
 [ext_resource type="PackedScene" uid="uid://cxj8426ccbn3y" path="res://nodes/house.tscn" id="4_u30fq"]
+[ext_resource type="Script" path="res://scenes/pause.gd" id="5_5ivd2"]
 [ext_resource type="AudioStream" uid="uid://dty1or7pqr0xe" path="res://assets/explosion_wide.ogg" id="5_edfjo"]
 [ext_resource type="Texture2D" uid="uid://bru8jf4igokv4" path="res://assets/Background.png" id="5_remti"]
 [ext_resource type="AudioStream" uid="uid://cqcvry76su6nj" path="res://assets/falling-bomb.mp3" id="6_62hrp"]
@@ -18,6 +19,9 @@ size = Vector2(50, 2000)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_p0fqv"]
 size = Vector2(2500, 50)
+
+[sub_resource type="LabelSettings" id="LabelSettings_cst1v"]
+font_size = 50
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_mgkm1")
@@ -89,6 +93,20 @@ offset_left = 25.0
 offset_top = 16.0
 offset_right = 77.0
 offset_bottom = 39.0
+
+[node name="Pause" type="CanvasModulate" parent="UI"]
+process_mode = 3
+visible = false
+color = Color(0.196078, 0.196078, 0.196078, 1)
+script = ExtResource("5_5ivd2")
+
+[node name="Label" type="Label" parent="UI/Pause"]
+offset_left = 433.0
+offset_top = 272.0
+offset_right = 626.0
+offset_bottom = 344.0
+text = "PAUSED"
+label_settings = SubResource("LabelSettings_cst1v")
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 

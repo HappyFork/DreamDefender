@@ -1,8 +1,9 @@
+Label
+CanvasModulate
 Sprite2D
 ParallaxLayer
 ParallaxBackground
 AudioStreamPlayer
-Label
 Button
 Timer
 CanvasLayer
