@@ -1,6 +1,9 @@
+Label
+Button
+Timer
+CanvasLayer
 CollisionShape2D
 Area2D
-Timer
 Sprite2D
 StaticBody2D
 Camera2D

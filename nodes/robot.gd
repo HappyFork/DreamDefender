@@ -18,6 +18,7 @@ var wheelless_drop = Vector2(0,14) # Added to position when both wheels are miss
 var box_open_sprite = preload("res://assets/BombBoxOpen.png") # Box is open sprite
 var box_closed_sprite = preload("res://assets/BombBoxClosed.png") # Box is closed sprite
 var smoke_cloud = preload("res://assets/smokecloud.png") # Smoke cloud node
+#var lose = preload("res://scenes/lose.tscn")
 
 
 ### Built-in functions ###
@@ -58,8 +59,13 @@ func remove_part( rand ):
 			rotation = 0
 			speed = 100
 		1:
-			pass # Game over
+			get_tree().change_scene_to_file("res://scenes/lose.tscn")
+			#self.call_deferred("go_to_lose_screen")
 	parts = parts - 1
+
+#func go_to_lose_screen():
+#	print( "test!" )
+#	get_tree().change_scene_to_file("res://scenes/lose.tscn")
 
 
 ### Signal functions ###

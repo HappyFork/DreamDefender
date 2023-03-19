@@ -1,9 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://c55oqhdhly54v"]
+[gd_scene load_steps=10 format=3 uid="uid://c55oqhdhly54v"]
 
 [ext_resource type="Script" path="res://scenes/main.gd" id="1_mgkm1"]
 [ext_resource type="PackedScene" uid="uid://c0bxfp8r6fvaa" path="res://nodes/bomb.tscn" id="2_vcxjw"]
 [ext_resource type="PackedScene" uid="uid://coeirbx31yvt4" path="res://nodes/robot.tscn" id="2_wlfy3"]
 [ext_resource type="PackedScene" uid="uid://cxj8426ccbn3y" path="res://nodes/house.tscn" id="4_u30fq"]
+[ext_resource type="Texture2D" uid="uid://bcgy2x8r1s7nu" path="res://assets/55-Theme-Dreams.png" id="5_hmtbb"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3ll2a"]
 size = Vector2(2500, 40)
@@ -72,9 +73,27 @@ shape = SubResource("RectangleShape2D_p0fqv")
 wait_time = 5.0
 autostart = true
 
+[node name="LevelTimer" type="Timer" parent="."]
+wait_time = 60.0
+autostart = true
+
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(0.5, 0.5)
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="Label" type="Label" parent="UI"]
+offset_left = 25.0
+offset_top = 16.0
+offset_right = 77.0
+offset_bottom = 39.0
+
+[node name="TestSprite" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(52, -108)
+texture = ExtResource("5_hmtbb")
 
 [connection signal="exploded" from="Bomb" to="." method="_on_bomb_exploded"]
 [connection signal="body_entered" from="DespawnArea" to="." method="_on_despawn_area_body_entered"]
 [connection signal="timeout" from="BombSpawnTimer" to="." method="_on_bomb_spawn_timer_timeout"]
+[connection signal="timeout" from="LevelTimer" to="." method="_on_level_timer_timeout"]
