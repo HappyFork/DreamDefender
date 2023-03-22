@@ -3,7 +3,11 @@ extends Node2D
 
 ### Variables ###
 @onready var robot = $Robot
+@onready var countdown_label = $UI/Label
+@onready var countdown_timer = $LevelTimer
+@onready var bomb_timer = $BombSpawnTimer
 
+var rnd = 2
 var arena_width = 974.0 # Used for x-axis range where bombs can spawn
 var bomb_spawn_height = -700.0 # The y-axis where bombs spawn
 var impulse_variance = 200.0 # Random impulse added to bombs before they fall
@@ -12,6 +16,7 @@ var houses : Array[House] # Holds the houses in the current scene
 var rng = RandomNumberGenerator.new() # Generates random spawn locations
 var bomb = preload("res://nodes/bomb.tscn") # Bombs (for spawning)
 var explosion = preload("res://assets/boom.png") # Explosions (bombs spawn these when they hit the ground)
+var win = preload("res://scenes/win.tscn") # Win screen
 
 
 ### Built-in functions ###
@@ -20,6 +25,10 @@ func _ready():
 	for n in get_children():
 		if n is House:
 			houses.append(n)
+
+func _process(delta):
+	# On every frame, update the countdown with the time left
+	countdown_label.set_text( "%d:%02d remaining" % [rnd, int(countdown_timer.time_left) % 60] )
 
 
 ### Custom functions ###
@@ -66,3 +75,14 @@ func _on_bomb_exploded( pos ):
 func _on_despawn_area_body_entered(body):
 	if body is Bomb:
 		body.queue_free()
+
+func _on_level_timer_timeout():
+	match rnd:
+		2:
+			bomb_timer.wait_time = 4.0
+			rnd = 1
+		1:
+			bomb_timer.wait_time = 3.0
+			rnd = 0
+		0:
+			get_tree().change_scene_to_packed( win )

@@ -1,0 +1,51 @@
+[gd_scene load_steps=4 format=3 uid="uid://djqj27tffxr0i"]
+
+[ext_resource type="Texture2D" uid="uid://bbv3of63nxxpc" path="res://assets/55-All-Cards.png" id="1_npqhi"]
+[ext_resource type="Script" path="res://scenes/start.gd" id="1_y7b5d"]
+[ext_resource type="Texture2D" uid="uid://c8dtg7wturqkv" path="res://assets/55-Theme-Dreams.png" id="2_723kp"]
+
+[node name="Start" type="Node2D"]
+script = ExtResource("1_y7b5d")
+
+[node name="Label" type="Label" parent="."]
+offset_left = 474.0
+offset_top = 30.0
+offset_right = 994.0
+offset_bottom = 212.0
+text = "So in this game you're playing as a robot dreamed up by some kids. Each kid is dreaming a different part of you, and when they wake up you lose that part. Uh. Also bombs are being dropped on the kids so you gotta stop them. From falling on the kids. And waking them up. You know, the explosion sound.
+
+They don't get killed don't worry."
+autowrap_mode = 2
+
+[node name="Button" type="Button" parent="."]
+offset_left = 353.0
+offset_top = 405.0
+offset_right = 399.0
+offset_bottom = 436.0
+text = "Start"
+
+[node name="Button2" type="Button" parent="."]
+offset_left = 550.0
+offset_top = 399.0
+offset_right = 641.0
+offset_bottom = 430.0
+text = "Don't start"
+
+[node name="Label2" type="Label" parent="."]
+offset_left = 244.0
+offset_top = 503.0
+offset_right = 738.0
+offset_bottom = 529.0
+text = "Credits: HappyFork did everything. That's why the art looks bad."
+
+[node name="55-all-cards" type="Sprite2D" parent="."]
+position = Vector2(224, 237)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("1_npqhi")
+
+[node name="55-theme-dreams" type="Sprite2D" parent="."]
+position = Vector2(226, 80)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("2_723kp")
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

@@ -1,4 +1,2 @@
-res://scenes/main.tscn
-res://nodes/robot.tscn
-res://nodes/bomb.tscn
-res://nodes/house.tscn
+res://scenes/win.tscn
+res://scenes/main.gd

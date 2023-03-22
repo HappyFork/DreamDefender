@@ -9,15 +9,16 @@ extends CharacterBody2D
 @onready var right_wheel = $RightWheel/WheelSprite # The sprite for the right wheel
 
 var box_open = true # Whether the bomb-defusal box can catch bombs
+var parts = 3 # When I make more parts, I should set this in _ready based on the # of houses.
 var smoke_offset = Vector2(50.0,-150.0) # Where the smoke cloud will spawn relative to the box
 var smoke_rise = Vector2(0,-50) # The amount the smoke cloud will rise before fading away
-var parts = 3 # When I make more parts, I should set this in _ready based on the # of houses.
 var tilted_rot = 0.4 # Added or removed from rotation when 1 wheel is missing
 var tilted_drop = Vector2(0,24) # Added to position when 1 wheel is missing
 var wheelless_drop = Vector2(0,14) # Added to position when both wheels are missing
 var box_open_sprite = preload("res://assets/BombBoxOpen.png") # Box is open sprite
 var box_closed_sprite = preload("res://assets/BombBoxClosed.png") # Box is closed sprite
 var smoke_cloud = preload("res://assets/smokecloud.png") # Smoke cloud node
+var lose = preload("res://scenes/lose.tscn") # Game over screen
 
 
 ### Built-in functions ###
@@ -58,7 +59,7 @@ func remove_part( rand ):
 			rotation = 0
 			speed = 100
 		1:
-			pass # Game over
+			get_tree().change_scene_to_packed( lose )
 	parts = parts - 1
 
 
